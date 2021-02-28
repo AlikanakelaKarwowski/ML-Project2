@@ -1,15 +1,8 @@
 import pandas as pd
-from sklearn.linear_model import Lasso
-from sklearn.linear_model import Ridge
+from sklearn.linear_model import Lasso, Ridge, LinearRegression
+from sklearn.model_selection import LeaveOneOut, cross_val_predict, train_test_split
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import LeaveOneOut
-from matplotlib import pyplot as plt
-from sklearn.model_selection import cross_val_predict
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_boston
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
 from matplotlib import pyplot as plt
 
 ###############################
