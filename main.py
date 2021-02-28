@@ -38,20 +38,20 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random
 # Create a linear model : Linear regression (aka ordinary least squares)
 lr = LinearRegression()
 lr.fit(X_train, y_train)
-print("lr.coef_: {}".format(lr.coef_))
-print("lr.intercept_: {}".format(lr.intercept_))
+print(f"lr.coef_: {lr.coef_}")
+print(f"lr.intercept_: {lr.intercept_}")
 
 # Estimate the accuracy of the classifier on future data, using the test data
 # score = 1-relative score
 # R^2(y, hat{y}) = 1 - {sum_{i=1}^{n} (y_i - hat{y}_i)^2}/{sum_{i=1}^{n} (y_i - bar{y})^2}
 ##########################################################################################
-print("Training set score: {:.2f}".format(lr.score(X_train, y_train)))
-print("Test set score: {:.2f}".format(lr.score(X_test, y_test)))
+print(f"Training set score: {lr.score(X_train, y_train):.2f}")
+print(f"Test set score: {lr.score(X_test, y_test):.2f}")
 
 # Use the trained linear repression model to predict a new, previously unseen object
 # first example: a small fruit with width 7.5 cm, height 7.3 cm, mass in kg
 fruit_prediction = lr.predict([[7.5, 7.3]])
-print("mass: {}".format(fruit_prediction[0]))
+print(f"mass: {fruit_prediction[0]}")
 
 #########################################################################
 #########################################################################
@@ -77,13 +77,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random
 # Create a linear model : Linear regression (aka ordinary least squares)
 lr = LinearRegression()
 lr.fit(X_train, y_train)
-print("lr.coef_: {}".format(lr.coef_))
-print("sum lr.coef_^2: {}".format(sum(lr.coef_*lr.coef_)))
-print("lr.intercept_: {}".format(lr.intercept_))
+print(f"lr.coef_: {lr.coef_}")
+print(f"sum lr.coef_^2: {sum(lr.coef_*lr.coef_)}")
+print(f"lr.intercept_: {lr.intercept_}")
 
 # Estimate the accuracy of the classifier on future data, using the test data
-print("Training set score: {:.2f}".format(lr.score(X_train, y_train)))
-print("Test set score: {:.2f}".format(lr.score(X_test, y_test)))
+print(f"Training set score: {lr.score(X_train, y_train):.2f}")
+print(f"Test set score: {lr.score(X_test, y_test):.2f}")
 
 # cross_val_predict returns an array of the same size as `y` where each entry
 # is a prediction obtained by cross validation: default 5-fold cross validation cv=5
@@ -106,7 +106,7 @@ lr = LinearRegression()
 predicted = []
 measured = []
 for train_index, test_index in loo.split(X):
-    print("TRAIN:", train_index, "TEST:", test_index)
+    print(f"TRAIN: {train_index} TEST:{test_index}")
     X_train, X_test = X.loc[train_index], X.loc[test_index]
     y_train, y_test = y[train_index], y[test_index]
     lr.fit(X_train, y_train)
@@ -130,11 +130,11 @@ plt.show()
 # Note: the smaller alpha = the less restriction.
 ###############################################################
 ridge = Ridge(alpha=10).fit(X_train, y_train)
-print("ridge.coef_: {}".format(ridge.coef_))
-print("sum ridge.coef_^2: {}".format(sum(ridge.coef_*ridge.coef_)))
-print("ridge.intercept_: {}".format(ridge.intercept_))
-print("Training set score: {:.2f}".format(ridge.score(X_train, y_train)))
-print("Test set score: {:.2f}".format(ridge.score(X_test, y_test)))
+print(f"ridge.coef_: {ridge.coef_}")
+print(f"sum ridge.coef_^2: {sum(ridge.coef_*ridge.coef_)}")
+print(f"ridge.intercept_: {ridge.intercept_}")
+print(f"Training set score: {ridge.score(X_train, y_train):.2f}")
+print(f"Test set score: {ridge.score(X_test, y_test):.2f}")
 
 ###############################################################
 # Lasso regression --- a more stable model
@@ -147,8 +147,8 @@ print("Test set score: {:.2f}".format(ridge.score(X_test, y_test)))
 # Note: the smaller alpha = the less restriction.
 ###############################################################
 lasso = Lasso(alpha=0.1).fit(X_train, y_train)
-print("lasso.coef_: {}".format(lasso.coef_))
-print("sum lasso.coef_^2: {}".format(sum(lasso.coef_*lasso.coef_)))
-print("lasso.intercept_: {}".format(lasso.intercept_))
-print("Training set score: {:.2f}".format(lasso.score(X_train, y_train)))
-print("Test set score: {:.2f}".format(lasso.score(X_test, y_test)))
+print(f"lasso.coef_: {lasso.coef_}")
+print(f"sum lasso.coef_^2: {sum(lasso.coef_*lasso.coef_)}")
+print(f"lasso.intercept_: {lasso.intercept_}")
+print(f"Training set score: {lasso.score(X_train, y_train):.2f}")
+print(f"Test set score: {lasso.score(X_test, y_test):.2f}")
