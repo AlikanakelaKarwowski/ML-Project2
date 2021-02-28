@@ -1,7 +1,6 @@
 import pandas as pd
 from sklearn.linear_model import Lasso, Ridge, LinearRegression
 from sklearn.model_selection import LeaveOneOut, cross_val_predict, train_test_split
-from sklearn.linear_model import LinearRegression
 from sklearn.datasets import load_boston
 from matplotlib import pyplot as plt
 
@@ -33,6 +32,8 @@ plt.show()
 #random_state: set seed for random# generator
 #test_size: default 25% testing, 75% training
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+
 
 # Create a linear model : Linear regression (aka ordinary least squares)
 lr = LinearRegression()
@@ -68,6 +69,10 @@ y = boston.target
 #random_state: set seed for random# generator
 #test_size: default 25% testing, 75% training
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+
+
+#-------- Logistical regression
 
 # Create a linear model : Linear regression (aka ordinary least squares)
 lr = LinearRegression()
