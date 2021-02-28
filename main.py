@@ -155,6 +155,10 @@ print("Test set score: {:.2f}".format(lasso.score(X_test, y_test)))
 
 
 #====== SVM
+# reading and writing data
+import pandas as pd
+fruits = pd.read_csv('fruit_data_with_colors.txt', sep='\t')
+fruits.head()
 
 
 # create a mapping from fruit label value to fruit name to make results easier to interpret
