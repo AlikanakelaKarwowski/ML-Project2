@@ -206,29 +206,29 @@ if seeData:
 
 lsvc = LinearSVC(C=100, random_state=10, tol=1e-4)
 lsvc.fit(X_train, y_train)
-print("Linear SVM Training set score: {:.2f}%".format(100*lsvc.score(X_train, y_train)))
-print("Linear SVM Test set score: {:.2f}%".format(100*lsvc.score(X_test, y_test)))
+print(f"Linear SVM Training set score: {100*lsvc.score(X_train, y_train):.2f}%")
+print(f"Linear SVM Test set score: {100*lsvc.score(X_test, y_test):.2f}%")
 #
 lsvc.predict(X_test)
 print(lsvc.coef_)
 print(lsvc.intercept_)
 
 # Create classifier object: Create a nonlinear SVM classifier
-# kernel, default=â€™rbfâ€™ = radial basis function
+# kernel, default="rbf" = radial basis function
 # if poly, default degree = 3
 
 svc = SVC(degree=2, kernel='poly', random_state=1, gamma='auto')
 svc.fit(X_train, y_train)
-print("SVM Poly Training set score: {:.2f}%".format(100*svc.score(X_train, y_train)))
-print("SVM Poly Test set score: {:.2f}%".format(100*svc.score(X_test, y_test)))
+print(f"SVM Poly Training set score: {100*svc.score(X_train, y_train):.2f}%")
+print(f"SVM Poly Test set score: {100*svc.score(X_test, y_test):.2f}%")
 
 # Create classifier object: Create a nonlinear SVM classifier
-# kernel, default=â€™rbfâ€™ = radial basis function
+# kernel, default="rbf" = radial basis function
 
 svc = SVC(C=10, gamma='auto', random_state=100)
 svc.fit(X_train, y_train)
-print("SVM Gaussian Training set score: {:.2f}%".format(100*svc.score(X_train, y_train)))
-print("SVM Gaussian Test set score: {:.2f}%".format(100*svc.score(X_test, y_test)))
+print(f"SVM Gaussian Training set score: {100*svc.score(X_train, y_train):.2f}%")
+print(f"SVM Gaussian Test set score: {100*svc.score(X_test, y_test):.2f}%")
 
 # SVM for multiple classes
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.25, random_state=2)
@@ -237,13 +237,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.25, random_
 
 svc = SVC(C=10, degree=1, kernel='poly')
 svc.fit(X_train, y_train)
-print("SVM Gaussian Training set score: {:.2f}%".format(100*svc.score(X_train, y_train)))
-print("SVM Gaussian Test set score: {:.2f}%".format(100*svc.score(X_test, y_test)))
+print(f"SVM Gaussian Training set score: {100*svc.score(X_train, y_train):.2f}%")
+print(f"SVM Gaussian Test set score: {100*svc.score(X_test, y_test):.2f}%")
 
 # kNN
 
 knn = KNeighborsClassifier(n_neighbors = 3, weights = 'uniform')
 knn.fit(X_train, y_train)
-print("kNN Training set score: {:.2f}%".format(100*knn.score(X_train, y_train)))
-print("kNN Test set score: {:.2f}%".format(100*knn.score(X_test, y_test)))
+print(f"kNN Training set score: {100*knn.score(X_train, y_train):.2f}%")
+print(f"kNN Test set score: {100*knn.score(X_test, y_test):.2f}%")
 
