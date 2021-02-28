@@ -1,4 +1,16 @@
 import pandas as pd
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import Ridge
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import LeaveOneOut
+from matplotlib import pyplot as plt
+from sklearn.model_selection import cross_val_predict
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_boston
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from matplotlib import pyplot as plt
 
 ###############################
 # fruit dataset
@@ -14,7 +26,6 @@ lookup_fruit_name = dict(zip(Fruit_k.fruit_label.unique(), Fruit_k.fruit_name.un
 print(lookup_fruit_name)
 
 # plotting the data
-from matplotlib import pyplot as plt
 plt.subplot(2, 1, 1)
 plt.scatter(X['height'], y, marker='o', color='blue', s=12)
 plt.xlabel('height')
@@ -26,13 +37,11 @@ plt.xlabel('width')
 plt.ylabel('mass')
 plt.show()
 
-from sklearn.model_selection import train_test_split
 #random_state: set seed for random# generator
 #test_size: default 25% testing, 75% training
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
 # Create a linear model : Linear regression (aka ordinary least squares)
-from sklearn.linear_model import LinearRegression
 lr = LinearRegression()
 lr.fit(X_train, y_train)
 print("lr.coef_: {}".format(lr.coef_))
@@ -59,18 +68,15 @@ print("mass: {}".format(fruit_prediction[0]))
 #Features real, positive
 #Targets real 5. - 50. *$1000 = price
 #########################################################################
-from sklearn.datasets import load_boston
 boston = load_boston()
 X = pd.DataFrame(boston.data, columns=boston.feature_names)
 y = boston.target
 
-from sklearn.model_selection import train_test_split
 #random_state: set seed for random# generator
 #test_size: default 25% testing, 75% training
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
 # Create a linear model : Linear regression (aka ordinary least squares)
-from sklearn.linear_model import LinearRegression
 lr = LinearRegression()
 lr.fit(X_train, y_train)
 print("lr.coef_: {}".format(lr.coef_))
@@ -83,11 +89,9 @@ print("Test set score: {:.2f}".format(lr.score(X_test, y_test)))
 
 # cross_val_predict returns an array of the same size as `y` where each entry
 # is a prediction obtained by cross validation: default 5-fold cross validation cv=5
-from sklearn.model_selection import cross_val_predict
 predicted = cross_val_predict(lr, X, y, cv=10)
 
 # plotting the data
-from matplotlib import pyplot as plt
 fig, (ax1, ax2) = plt.subplots(1,2)
 ax1.scatter(y, predicted, edgecolors=(0, 0, 0))
 ax1.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=4)
@@ -97,11 +101,9 @@ ax1.set_ylabel('Predicted')
 # Leave one out: Provides train/test indices to split data in train/test sets. Each
 # sample is used once as a test set (singleton) while the remaining samples form the training set.
 # n= the number of samples
-from sklearn.model_selection import LeaveOneOut
 loo = LeaveOneOut()
 loo.get_n_splits(X)
 
-from sklearn.linear_model import LinearRegression
 lr = LinearRegression()
 predicted = []
 measured = []
@@ -129,7 +131,6 @@ plt.show()
 # minimizing ||y - Xw||^2_2 + alpha * ||w||^2_2
 # Note: the smaller alpha = the less restriction.
 ###############################################################
-from sklearn.linear_model import Ridge
 ridge = Ridge(alpha=10).fit(X_train, y_train)
 print("ridge.coef_: {}".format(ridge.coef_))
 print("sum ridge.coef_^2: {}".format(sum(ridge.coef_*ridge.coef_)))
@@ -147,7 +148,6 @@ print("Test set score: {:.2f}".format(ridge.score(X_test, y_test)))
 # minimizing ||y - Xw||_2 + alpha * ||w||_2
 # Note: the smaller alpha = the less restriction.
 ###############################################################
-from sklearn.linear_model import Lasso
 lasso = Lasso(alpha=0.1).fit(X_train, y_train)
 print("lasso.coef_: {}".format(lasso.coef_))
 print("sum lasso.coef_^2: {}".format(sum(lasso.coef_*lasso.coef_)))
