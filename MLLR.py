@@ -1,15 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from sklearn.svm import LinearSVC, SVC
 from matplotlib import cm
 from pandas.plotting import scatter_matrix
+from scipy import stats
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.metrics import plot_confusion_matrix as pcm
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import scale
-from scipy import stats
+from sklearn.svm import SVC, LinearSVC
 
 plt.style.use("fivethirtyeight")
 
@@ -21,9 +21,10 @@ def find_stats(x):
         print(f'\nMax:\n{round(j.max(),3)}')
         print(f'\nMin:\n{round(j.min(),3)}')
         print(f'\nMean:\n{round(j.mean(),3)}')
-        print(f'\nMedian:\nHARDCODED VALUE FROM EXCEL')
-        print(f'\:\nHARDCODED VALUE FROM EXCEL')
         print(f'\nSTD:\n{round(np.std(j),3)}')
+
+    print(f'\nMedian:\nHARDCODED VALUE FROM EXCEL')
+    print(f'\:\nHARDCODED VALUE FROM EXCEL')
 
 def show_data(x, y):
     # Show Graphical Representations of our Data
