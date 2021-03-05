@@ -43,49 +43,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random
 lr = LinearRegression()
 lr.fit(X_train, y_train)
 print(f"lr.coef_: {lr.coef_}")
+print(f"sum lr.coef_^2: {sum(lr.coef_*lr.coef_)}")
 print(f"lr.intercept_: {lr.intercept_}")
 
 # Estimate the accuracy of the classifier on future data, using the test data
 # score = 1-relative score
 # R^2(y, hat{y}) = 1 - {sum_{i=1}^{n} (y_i - hat{y}_i)^2}/{sum_{i=1}^{n} (y_i - bar{y})^2}
 ##########################################################################################
-print(f"Training set score: {lr.score(X_train, y_train):.2f}")
-print(f"Test set score: {lr.score(X_test, y_test):.2f}")
-
-# Use the trained linear repression model to predict a new, previously unseen object
-# first example: a small fruit with width 7.5 cm, height 7.3 cm, mass in kg
-fruit_prediction = lr.predict([[7.5, 7.3]])
-print(f"mass: {fruit_prediction[0]}")
-
-#########################################################################
-#########################################################################
-#More complicated data : Boston housing dataset
-#https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_boston.html
-#Samples total 506
-#Dimensionality 13
-#Features real, positive
-#Targets real 5. - 50. *$1000 = price
-#########################################################################
-boston = load_boston()
-X = pd.DataFrame(boston.data, columns=boston.feature_names)
-y = boston.target
-
-#random_state: set seed for random# generator
-#test_size: default 25% testing, 75% training
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
-
-
-
-#-------- Logistical regression
-
-# Create a linear model : Linear regression (aka ordinary least squares)
-lr = LinearRegression()
-lr.fit(X_train, y_train)
-print(f"lr.coef_: {lr.coef_}")
-print(f"sum lr.coef_^2: {sum(lr.coef_*lr.coef_)}")
-print(f"lr.intercept_: {lr.intercept_}")
-
-# Estimate the accuracy of the classifier on future data, using the test data
 print(f"Training set score: {lr.score(X_train, y_train):.2f}")
 print(f"Test set score: {lr.score(X_test, y_test):.2f}")
 
