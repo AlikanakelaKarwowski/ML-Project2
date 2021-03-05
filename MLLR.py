@@ -1,12 +1,14 @@
-import pandas as pd
-from pandas.plotting import scatter_matrix
-import numpy as np
-import matplotlib.cm as cm
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split 
+import numpy as np
+import pandas as pd
+from matplotlib import cm
+from pandas.plotting import scatter_matrix
 from sklearn.linear_model import LinearRegression, LogisticRegression
-from sklearn.preprocessing import scale
 from sklearn.metrics import plot_confusion_matrix as pcm
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import scale
+
 plt.style.use("fivethirtyeight")
 
 USAhousing = pd.read_csv('kc_house_data.csv')
