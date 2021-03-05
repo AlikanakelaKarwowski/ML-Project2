@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from sklearn.svm import LinearSVC, SVC
 from matplotlib import cm
 from pandas.plotting import scatter_matrix
 from sklearn.linear_model import LinearRegression, LogisticRegression
@@ -74,3 +75,45 @@ plt.legend()
 plt.xlabel("n_neighbors")
 plt.ylabel("Accuracy")
 plt.show()
+
+
+
+#temp
+# Create classifier object: Create a linear SVM classifier
+# C: Regularization parameter. Default C=1
+
+lsvc = LinearSVC(C=100, random_state=10, tol=1e-4)
+lsvc.fit(xtrain, ytrain)
+print(f"Linear SVM Training set score: {100*lsvc.score(xtrain, ytrain):.2f}%")
+print(f"Linear SVM Test set score: {100*lsvc.score(xtest, ytest):.2f}%")
+#
+lsvc.predict(xtest)
+print(lsvc.coef_)
+print(lsvc.intercept_)
+
+# Create classifier object: Create a nonlinear SVM classifier
+# kernel, default="rbf" = radial basis function
+# if poly, default degree = 3
+
+svc = SVC(degree=2, kernel='poly', random_state=1, gamma='auto')
+svc.fit(xtrain, ytrain)
+print(f"SVM Poly Training set score: {100*svc.score(xtrain, ytrain):.2f}%")
+print(f"SVM Poly Test set score: {100*svc.score(xtest, ytest):.2f}%")
+
+# Create classifier object: Create a nonlinear SVM classifier
+# kernel, default="rbf" = radial basis function
+
+svc = SVC(C=10, gamma='auto', random_state=100)
+svc.fit(xtrain, ytrain)
+print(f"SVM Gaussian Training set score: {100*svc.score(xtrain, ytrain):.2f}%")
+print(f"SVM Gaussian Test set score: {100*svc.score(xtest, ytest):.2f}%")
+
+# SVM for multiple classes
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=.25, random_state=2)
+
+# SVM with linear kernel
+
+svc = SVC(C=10, degree=1, kernel='poly')
+svc.fit(X_train, y_train)
+print(f"SVM Gaussian Training set score: {100*svc.score(X_train, y_train):.2f}%")
+print(f"SVM Gaussian Test set score: {100*svc.score(X_test, y_test):.2f}%")

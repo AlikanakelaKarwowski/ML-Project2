@@ -38,7 +38,6 @@ plt.show()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
 
-
 # Create a linear model : Linear regression (aka ordinary least squares)
 lr = LinearRegression()
 lr.fit(X_train, y_train)
@@ -74,7 +73,7 @@ lr = LinearRegression()
 predicted = []
 measured = []
 for train_index, test_index in loo.split(X):
-    print(f"TRAIN: {train_index} TEST:{test_index}")
+    #print(f"TRAIN: {train_index} TEST:{test_index}")
     X_train, X_test = X.loc[train_index], X.loc[test_index]
     y_train, y_test = y[train_index], y[test_index]
     lr.fit(X_train, y_train)
