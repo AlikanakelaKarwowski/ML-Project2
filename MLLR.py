@@ -9,6 +9,7 @@ from sklearn.metrics import plot_confusion_matrix as pcm
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import scale
+from scipy import stats
 
 plt.style.use("fivethirtyeight")
 
@@ -34,19 +35,25 @@ ax.set_xlabel('Bedrooms')
 ax.set_ylabel('Price')
 ax.set_zlabel('Sq. Footage')
 plt.show()
+#max, min, mean, median, mode, standard deviation
+for i in range (6,11):
+    j = x[house['grade'] == i]
 
+    print(i)
+    print(j.max())
+    print(j.min())
+    print(j.mean())
+    print(np.std(j))
 
 x = scale(x)
 
 xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
+
 lr = LogisticRegression(random_state=0, multi_class='auto', max_iter=10000)
 lr.fit(xtrain,ytrain)
 print(lr.score(xtest,ytest))
 pcm(lr, xtest, ytest, normalize='true')
 plt.show()
-
-
-
 
 #KNN
 xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
@@ -82,7 +89,7 @@ plt.show()
 # Create classifier object: Create a linear SVM classifier
 # C: Regularization parameter. Default C=1
 
-lsvc = LinearSVC(C=100, random_state=10, tol=1e-4)
+lsvc = LinearSVC(C=100, random_state=0, tol=1e-4)
 lsvc.fit(xtrain, ytrain)
 print(f"Linear SVM Training set score: {100*lsvc.score(xtrain, ytrain):.2f}%")
 print(f"Linear SVM Test set score: {100*lsvc.score(xtest, ytest):.2f}%")
@@ -91,14 +98,20 @@ lsvc.predict(xtest)
 print(lsvc.coef_)
 print(lsvc.intercept_)
 
+pcm(lsvc, xtest, ytest, normalize='true')
+plt.show()
+
 # Create classifier object: Create a nonlinear SVM classifier
 # kernel, default="rbf" = radial basis function
 # if poly, default degree = 3
 
-svc = SVC(degree=2, kernel='poly', random_state=1, gamma='auto')
+svc = SVC(degree=2, kernel='poly', random_state=0, gamma='auto')
 svc.fit(xtrain, ytrain)
 print(f"SVM Poly Training set score: {100*svc.score(xtrain, ytrain):.2f}%")
 print(f"SVM Poly Test set score: {100*svc.score(xtest, ytest):.2f}%")
+
+pcm(svc, xtest, ytest, normalize='true')
+plt.show()
 
 # Create classifier object: Create a nonlinear SVM classifier
 # kernel, default="rbf" = radial basis function
@@ -108,12 +121,14 @@ svc.fit(xtrain, ytrain)
 print(f"SVM Gaussian Training set score: {100*svc.score(xtrain, ytrain):.2f}%")
 print(f"SVM Gaussian Test set score: {100*svc.score(xtest, ytest):.2f}%")
 
-# SVM for multiple classes
-X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=.25, random_state=2)
-
+pcm(svc, xtest, ytest, normalize='true')
+plt.show()
 # SVM with linear kernel
 
 svc = SVC(C=10, degree=1, kernel='poly')
-svc.fit(X_train, y_train)
-print(f"SVM Gaussian Training set score: {100*svc.score(X_train, y_train):.2f}%")
-print(f"SVM Gaussian Test set score: {100*svc.score(X_test, y_test):.2f}%")
+svc.fit(xtrain, ytrain)
+print(f"SVM Gaussian Training set score: {100*svc.score(xtrain, ytrain):.2f}%")
+print(f"SVM Gaussian Test set score: {100*svc.score(xtest, ytest):.2f}%")
+
+pcm(svc, xtest, ytest, normalize='true')
+plt.show()
