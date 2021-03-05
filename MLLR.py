@@ -24,7 +24,6 @@ cmap = cm.get_cmap('gnuplot')
 scatter = scatter_matrix(xtrain, c=ytrain, marker='o', s=40, hist_kwds={'bins':14})
 plt.show
 
-print("here")
 fig=plt.figure()
 ax = fig.add_subplot(111, projection = '3d')
 ax.scatter(xtrain['bedrooms'],xtrain['price'],xtrain['sqft_living'], c = ytrain, s=100)
