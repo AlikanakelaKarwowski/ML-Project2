@@ -11,32 +11,26 @@ from mpl_toolkits.mplot3d import axes3d
 ###############################
 # fruit dataset
 ###############################
-houses = pd.read_csv('USA_Housing.csv')
+houses = pd.read_csv('kc_house_data.csv')
 houses.head()
-p=houses['Price'].max()
-q=houses['Price'].min()
-classes =houses['Price'].mean()
 
-print(p)
-print(q)
+classes =houses['grade'].mean()
 
+X = houses[['price','bedrooms']]
 
-#X = houses_k[['Avg. Area Income', 'Avg. Area Number of Rooms']]
-X = houses[['Avg. Area Income','Avg. Area Number of Rooms']]
-
-y = houses['Price']
+y = houses['grade']
 
 
 # plotting the data
 plt.subplot(2, 1, 1)
-plt.scatter(X['Avg. Area Income'], y, marker='o', color='blue', s=12)
-plt.xlabel('Avg. Area Income')
-plt.ylabel('price')
+plt.scatter(X['price'], y, marker='o', color='blue', s=12)
+plt.xlabel('price')
+plt.ylabel('grade')
 
 plt.subplot(2, 1, 2)
-plt.scatter(X['Avg. Area Number of Rooms'], y, marker='o', color='blue', s=12)
-plt.xlabel('Avg. Area Number of Rooms')
-plt.ylabel('price')
+plt.scatter(X['bedrooms'], y, marker='o', color='blue', s=12)
+plt.xlabel('bedrooms')
+plt.ylabel('grade')
 plt.show()
 
 #random_state: set seed for random# generator
@@ -167,8 +161,8 @@ print(f"Test set score: {lasso.score(X_test, y_test):.2f}")
 #====== SVM
 
 # create a mapping from fruit label value to fruit name to make results easier to interpret
-X = houses[['Avg. Area Income','Avg. Area Number of Rooms']]
-y = houses['Price']
+X = houses[['price','bedrooms','bathrooms','sqft_living','sqft_lot','sqft_above','sqft_basement','yr_built']]
+y = houses['grade']
 
 from sklearn.model_selection import train_test_split
 #random_state: set seed for random# generator
@@ -192,10 +186,10 @@ if seeData:
        # must keep
     fig = plt.figure()
     ax = fig.add_subplot(111, projection = '3d')
-    ax.scatter(X_train['width'], X_train['height'], X_train['color_score'], c = y_train, marker = 'o', s=100)
-    ax.set_xlabel('width')
-    ax.set_ylabel('height')
-    ax.set_zlabel('color_score')
+    ax.scatter(X_train['price'], X_train['bedrooms'], X_train['sqft_living'], c = y_train, marker = 'o', s=100)
+    ax.set_xlabel('price')
+    ax.set_ylabel('bedrooms')
+    ax.set_zlabel('sqft_living')
     plt.show()
 
 
