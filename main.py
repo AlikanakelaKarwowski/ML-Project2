@@ -11,26 +11,32 @@ from mpl_toolkits.mplot3d import axes3d
 ###############################
 # fruit dataset
 ###############################
-fruits = pd.read_csv('fruit_data_with_colors.txt', sep='\t')
-fruits.head()
+houses = pd.read_csv('USA_Housing.csv')
+houses.head()
+p=houses['Price'].max()
+q=houses['Price'].min()
+classes =houses['Price'].mean()
 
-Fruit_k = fruits[fruits['fruit_label'] == 2]
-X = Fruit_k[['height', 'width']]
-y = Fruit_k['mass']
+print(p)
+print(q)
 
-lookup_fruit_name = dict(zip(Fruit_k.fruit_label.unique(), Fruit_k.fruit_name.unique()))
-print(lookup_fruit_name)
+
+#X = houses_k[['Avg. Area Income', 'Avg. Area Number of Rooms']]
+X = houses[['Avg. Area Income','Avg. Area Number of Rooms']]
+
+y = houses['Price']
+
 
 # plotting the data
 plt.subplot(2, 1, 1)
-plt.scatter(X['height'], y, marker='o', color='blue', s=12)
-plt.xlabel('height')
-plt.ylabel('mass')
+plt.scatter(X['Avg. Area Income'], y, marker='o', color='blue', s=12)
+plt.xlabel('Avg. Area Income')
+plt.ylabel('price')
 
 plt.subplot(2, 1, 2)
-plt.scatter(X['width'], y, marker='o', color='blue', s=12)
-plt.xlabel('width')
-plt.ylabel('mass')
+plt.scatter(X['Avg. Area Number of Rooms'], y, marker='o', color='blue', s=12)
+plt.xlabel('Avg. Area Number of Rooms')
+plt.ylabel('price')
 plt.show()
 
 #random_state: set seed for random# generator
@@ -159,18 +165,10 @@ print(f"Training set score: {lasso.score(X_train, y_train):.2f}")
 print(f"Test set score: {lasso.score(X_test, y_test):.2f}")
 
 #====== SVM
-# reading and writing data
-
-fruits = pd.read_csv('fruit_data_with_colors.txt', sep='\t')
-fruits.head()
-
 
 # create a mapping from fruit label value to fruit name to make results easier to interpret
-lookup_fruit_name = dict(zip(fruits.fruit_label.unique(), fruits.fruit_name.unique()))
-print(lookup_fruit_name)
-
-X = fruits[['height', 'width', 'mass', 'color_score']]
-y = fruits['fruit_label']
+X = houses[['Avg. Area Income','Avg. Area Number of Rooms']]
+y = houses['Price']
 
 from sklearn.model_selection import train_test_split
 #random_state: set seed for random# generator
