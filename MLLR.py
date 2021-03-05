@@ -63,7 +63,6 @@ for i,k in enumerate(neighbors):
     #Save accuracy for both training and testing
     train_acc[i] = knn.score(xtrain, ytrain)
     test_acc[i] = knn.score(xtest, ytest)
-    print(i)
 knn = KNeighborsClassifier(n_neighbors=15, metric='minkowski', p=1, weights='distance')
 knn.fit(xtrain, ytrain)
 
