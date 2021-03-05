@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import scale
 from sklearn.svm import SVC, LinearSVC
-
+from multiprocessing import Process
 plt.style.use("fivethirtyeight")
 
 def find_stats(x):
@@ -24,7 +24,7 @@ def find_stats(x):
         print(f'\nSTD:\n{round(np.std(j),3)}')
 
     print(f'\nMedian:\nHARDCODED VALUE FROM EXCEL')
-    print(f'\:\nHARDCODED VALUE FROM EXCEL')
+    print(f'\nMode:\nHARDCODED VALUE FROM EXCEL')
 
 def show_data(x, y):
     # Show Graphical Representations of our Data
@@ -152,20 +152,24 @@ if __name__ == "__main__":
     x = house[['bedrooms', 'bathrooms', 'price', 'sqft_living', 'sqft_lot', 'yr_built', 'floors', 'sqft_basement']]
     y = house["grade"]
 
-    # Logisitic Regression
-    log_reg(x, y)
+    p1 = Process(target=log_reg, args=(x,y,))
+    p2 = Process(target=k_nearest, args=(x,y,))
+    p3 = Process(target=linear_SVC, args=(x,y,True,))
+    p4 = Process(target=svc_poly, args=(x,y,True,))
+    p5 = Process(target=svc_rbf, args=(x,y,True,))
+    p6 = Process(target=svc_linear_kernel, args=(x,y,True,))
+    p1.start()
+    p2.start()
+    p3.start()
+    p4.start()
+    p5.start()
+    p6.start()
 
-    # KNN
-    k_nearest(x, y)
-
-    # Linear SVC
-    linear_SVC(x, y, show_pcm=True)
-
-    # Polynomial SVC
-    svc_poly(x, y, show_pcm=True)
-
-    # if poly, default degree = 3
-    svc_rbf(x, y, show_pcm=True)
+    p1.join()
+    p2.join()
+    p3.join()
+    p4.join()
+    p5.join()
+    p6.join()
 
     find_stats(x)
-
