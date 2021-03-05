@@ -13,122 +13,158 @@ from scipy import stats
 
 plt.style.use("fivethirtyeight")
 
-USAhousing = pd.read_csv('kc_house_data.csv')
-# Features
-house= USAhousing[USAhousing["grade"] >=6]
-house= house[house["grade"] <=10]
-x = house[['bedrooms', 'bathrooms', 'price', 'sqft_living', 'sqft_lot', 'yr_built', 'floors', 'sqft_basement']]
-y = house["grade"]
-print(f"8 Features, 5 classes, {len(x)} Entries")
+def find_stats(x):
+    #max, min, mean, median, mode, standard deviation
+    for i in range (6,11):
+        j = x[house['grade'] == i]
+        print(f"\nStatistics for Grade: {i}")
+        print(f'\nMax:\n{round(j.max(),3)}')
+        print(f'\nMin:\n{round(j.min(),3)}')
+        print(f'\nMean:\n{round(j.mean(),3)}')
+        print(f'\nMedian:\nHARDCODED VALUE FROM EXCEL')
+        print(f'\:\nHARDCODED VALUE FROM EXCEL')
+        print(f'\nSTD:\n{round(np.std(j),3)}')
 
-xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
-print("Using 25% for Testing. 75% for Training.")
+def show_data(x, y):
+    # Show Graphical Representations of our Data
+    print(f"8 Features, 5 classes, {len(x)} Entries")
+    xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
+    print("Using 25% for Testing. 75% for Training.")
 
-cmap = cm.get_cmap('gnuplot')
-scatter = scatter_matrix(xtrain, c=ytrain, marker='o', s=40, hist_kwds={'bins':14})
-plt.show
+    cmap = cm.get_cmap('gnuplot')
+    scatter = scatter_matrix(xtrain, c=ytrain, marker='o', s=40, hist_kwds={'bins':14})
+    plt.show
 
-fig=plt.figure()
-ax = fig.add_subplot(111, projection = '3d')
-ax.scatter(xtrain['bedrooms'],xtrain['price'],xtrain['sqft_living'], c = ytrain, s=100)
-ax.set_xlabel('Bedrooms')
-ax.set_ylabel('Price')
-ax.set_zlabel('Sq. Footage')
-plt.show()
-#max, min, mean, median, mode, standard deviation
-for i in range (6,11):
-    j = x[house['grade'] == i]
+    fig=plt.figure()
+    ax = fig.add_subplot(111, projection = '3d')
+    ax.scatter(xtrain['bedrooms'],xtrain['price'],xtrain['sqft_living'], c = ytrain, s=100)
+    ax.set_xlabel('Bedrooms')
+    ax.set_ylabel('Price')
+    ax.set_zlabel('Sq. Footage')
+    plt.show()
 
-    print(i)
-    print(j.max())
-    print(j.min())
-    print(j.mean())
-    print(np.std(j))
+def log_reg(x, y, show_pcm=False):
+    x = scale(x)
+    xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
 
-x = scale(x)
+    lr = LogisticRegression(random_state=0, multi_class='auto', max_iter=10000)
+    lr.fit(xtrain,ytrain)
+    print(f"Logistic Regression Score: {round(lr.score(xtest,ytest),3)}")
+    if show_pcm:
+        pcm(lr, xtest, ytest, normalize='true')
+        plt.show()
 
-xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
+def k_nearest(x, y, show_pcm=False):
+    x = scale(x)
+    xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
 
-lr = LogisticRegression(random_state=0, multi_class='auto', max_iter=10000)
-lr.fit(xtrain,ytrain)
-print(lr.score(xtest,ytest))
-pcm(lr, xtest, ytest, normalize='true')
-plt.show()
+    neighbors = np.arange(1,50)
+    train_acc = np.empty(len(neighbors))
+    test_acc = np.empty(len(neighbors))
 
-#KNN
-xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
-
-neighbors = np.arange(1,50)
-train_acc = np.empty(len(neighbors))
-test_acc = np.empty(len(neighbors))
-
-#run through testing for each k number of neighbors
-for i,k in enumerate(neighbors):
-    #training
-    #setting the metric to minkowski and p = 1 set the algorithm used to manhattan
-    knn = KNeighborsClassifier(n_neighbors=k,metric='minkowski',p=1, weights='distance')
+    #run through testing for each k number of neighbors
+    for i,k in enumerate(neighbors):
+        #training
+        #setting the metric to minkowski and p = 1 set the algorithm used to manhattan
+        knn = KNeighborsClassifier(n_neighbors=k,metric='minkowski',p=1, weights='distance')
+        knn.fit(xtrain, ytrain)
+        #Save accuracy for both training and testing
+        train_acc[i] = knn.score(xtrain, ytrain)
+        test_acc[i] = knn.score(xtest, ytest)
+    knn = KNeighborsClassifier(n_neighbors=15, metric='minkowski', p=1, weights='distance')
     knn.fit(xtrain, ytrain)
-    #Save accuracy for both training and testing
-    train_acc[i] = knn.score(xtrain, ytrain)
-    test_acc[i] = knn.score(xtest, ytest)
-knn = KNeighborsClassifier(n_neighbors=15, metric='minkowski', p=1, weights='distance')
-knn.fit(xtrain, ytrain)
+    print(f"KNN Score: {round(knn.score(xtest,ytest),3)}")
+    if show_pcm:
+        pcm(knn, xtest, ytest, normalize='true')
+        #Show Relevant plots based on requirements
+        plt.figure()
+        plt.plot(neighbors,test_acc,label="Testing Dataset Accuracy KNN")
+        plt.legend()
+        plt.xlabel("n_neighbors")
+        plt.ylabel("Accuracy")
+        plt.show()
 
-pcm(knn, xtest, ytest, normalize='true')
-#Show Relevant plots based on requirements
-plt.figure()
-plt.plot(neighbors,test_acc,label="Testing Dataset Accuracy")
-plt.legend()
-plt.xlabel("n_neighbors")
-plt.ylabel("Accuracy")
-plt.show()
+def linear_SVC(x, y, show_pcm=False):
+    x = scale(x)
+    xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
+
+    lsvc = LinearSVC(C=100, random_state=0, tol=1e-5)
+    lsvc.fit(xtrain, ytrain)
+    print(f"Linear SVM Training set score: {100*lsvc.score(xtrain, ytrain):.2f}%")
+    print(f"Linear SVM Test set score: {100*lsvc.score(xtest, ytest):.2f}%")
+    
+    lsvc.predict(xtest)
+    print(f"Linear SVC Coeffienct: {lsvc.coef_}")
+    print(f"Linear SVC Intercept: {lsvc.intercept_}")
+    if show_pcm:
+        pcm(lsvc, xtest, ytest, normalize='true')
+        plt.show()
+
+def svc_poly(x, y, show_pcm=False):
+    x = scale(x)
+    xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
+
+    svc = SVC(degree=2, kernel='poly', random_state=0, gamma='auto')
+    svc.fit(xtrain, ytrain)
+    print(f"SVM Poly Training set score: {100*svc.score(xtrain, ytrain):.2f}%")
+    print(f"SVM Poly Test set score: {100*svc.score(xtest, ytest):.2f}%")
+    
+    if show_pcm:
+        pcm(svc, xtest, ytest, normalize='true')
+        plt.show()
+
+def svc_rbf(x, y, show_pcm=False):
+    x = scale(x)
+    xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
+
+    svc = SVC(C=10, gamma='auto', random_state=0)
+    svc.fit(xtrain, ytrain)
+    print(f"SVM Gaussian Training set score: {100*svc.score(xtrain, ytrain):.2f}%")
+    print(f"SVM Gaussian Test set score: {100*svc.score(xtest, ytest):.2f}%")
+
+    if show_pcm:
+        pcm(svc, xtest, ytest, normalize='true')
+        plt.show()
+
+def svc_linear_kernel(x, y, show_pcm=False):
+    x = scale(x)
+    xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
+
+    svc = SVC(C=10, degree=1, kernel='poly')
+    svc.fit(xtrain, ytrain)
+    print(f"SVM Gaussian Training set score: {100*svc.score(xtrain, ytrain):.2f}%")
+    print(f"SVM Gaussian Test set score: {100*svc.score(xtest, ytest):.2f}%")
+
+    if show_pcm:
+        pcm(svc, xtest, ytest, normalize='true')
+        plt.show()
 
 
+if __name__ == "__main__": 
+    USAhousing = pd.read_csv('kc_house_data.csv')
+    
+    # Features
+    # Slicing our data set to more desireable values
+    house= USAhousing[USAhousing["grade"] >=6]
+    house= house[house["grade"] <=10]
+    # Set x and y variables for testing
+    x = house[['bedrooms', 'bathrooms', 'price', 'sqft_living', 'sqft_lot', 'yr_built', 'floors', 'sqft_basement']]
+    y = house["grade"]
 
-#temp
-# Create classifier object: Create a linear SVM classifier
-# C: Regularization parameter. Default C=1
+    # Logisitic Regression
+    log_reg(x, y)
 
-lsvc = LinearSVC(C=100, random_state=0, tol=1e-4)
-lsvc.fit(xtrain, ytrain)
-print(f"Linear SVM Training set score: {100*lsvc.score(xtrain, ytrain):.2f}%")
-print(f"Linear SVM Test set score: {100*lsvc.score(xtest, ytest):.2f}%")
-#
-lsvc.predict(xtest)
-print(lsvc.coef_)
-print(lsvc.intercept_)
+    # KNN
+    k_nearest(x, y)
 
-pcm(lsvc, xtest, ytest, normalize='true')
-plt.show()
+    # Linear SVC
+    linear_SVC(x, y, show_pcm=True)
 
-# Create classifier object: Create a nonlinear SVM classifier
-# kernel, default="rbf" = radial basis function
-# if poly, default degree = 3
+    # Polynomial SVC
+    svc_poly(x, y, show_pcm=True)
 
-svc = SVC(degree=2, kernel='poly', random_state=0, gamma='auto')
-svc.fit(xtrain, ytrain)
-print(f"SVM Poly Training set score: {100*svc.score(xtrain, ytrain):.2f}%")
-print(f"SVM Poly Test set score: {100*svc.score(xtest, ytest):.2f}%")
+    # if poly, default degree = 3
+    svc_rbf(x, y, show_pcm=True)
 
-pcm(svc, xtest, ytest, normalize='true')
-plt.show()
+    find_stats(x)
 
-# Create classifier object: Create a nonlinear SVM classifier
-# kernel, default="rbf" = radial basis function
-
-svc = SVC(C=10, gamma='auto', random_state=100)
-svc.fit(xtrain, ytrain)
-print(f"SVM Gaussian Training set score: {100*svc.score(xtrain, ytrain):.2f}%")
-print(f"SVM Gaussian Test set score: {100*svc.score(xtest, ytest):.2f}%")
-
-pcm(svc, xtest, ytest, normalize='true')
-plt.show()
-# SVM with linear kernel
-
-svc = SVC(C=10, degree=1, kernel='poly')
-svc.fit(xtrain, ytrain)
-print(f"SVM Gaussian Training set score: {100*svc.score(xtrain, ytrain):.2f}%")
-print(f"SVM Gaussian Test set score: {100*svc.score(xtest, ytest):.2f}%")
-
-pcm(svc, xtest, ytest, normalize='true')
-plt.show()
