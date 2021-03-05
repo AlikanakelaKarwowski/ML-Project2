@@ -43,3 +43,35 @@ lr.fit(xtrain,ytrain)
 print(lr.score(xtest,ytest))
 pcm(lr, xtest, ytest, normalize='true')
 plt.show()
+
+
+
+
+#KNN
+xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
+
+neighbors = np.arange(1,50)
+train_acc = np.empty(len(neighbors))
+test_acc = np.empty(len(neighbors))
+
+#run through testing for each k number of neighbors
+for i,k in enumerate(neighbors):
+    #training
+    #setting the metric to minkowski and p = 1 set the algorithm used to manhattan
+    knn = KNeighborsClassifier(n_neighbors=k,metric='minkowski',p=1, weights='distance')
+    knn.fit(xtrain, ytrain)
+    #Save accuracy for both training and testing
+    train_acc[i] = knn.score(xtrain, ytrain)
+    test_acc[i] = knn.score(xtest, ytest)
+    print(i)
+knn = KNeighborsClassifier(n_neighbors=15, metric='minkowski', p=1, weights='distance')
+knn.fit(xtrain, ytrain)
+
+pcm(knn, xtest, ytest, normalize='true')
+#Show Relevant plots based on requirements
+plt.figure()
+plt.plot(neighbors,test_acc,label="Testing Dataset Accuracy")
+plt.legend()
+plt.xlabel("n_neighbors")
+plt.ylabel("Accuracy")
+plt.show()
