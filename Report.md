@@ -9,7 +9,6 @@
 - [Introduction](#introduction)
 - [Statistical Summary](#statistical-summary)
 - [Summary of Classification Results](#summary-of-classification-results)
-- [Discussion](#discussion)
 - [Conclusion](#conclusion)
 ---
 
@@ -241,14 +240,11 @@ Below is the confusion matrix for our best learning models, Logistic regression,
 <center> SVM Linear Kernel with Gaussian Distribution </center>
 
 ---
-
-# Discussion
-
-
----
 # Conclusion
 
-In conclusion our data set was best trained using Logistic Regression, or SVM with a Linear Kernel and a Gaussian Distribution. Those models gave us the largest accuracy for all classes ranging between 63% -72% depending on how the data was split for training and testing.
+In conclusion our data set was best trained using Logistic Regression, or SVM with a Linear Kernel and a Gaussian Distribution. Those models gave us the largest accuracy for all classes ranging between 63% -72% depending on how the data was split for training and testing. We also found out that using a straight up Linear SVM model made it so that our data wouldnt converge no matter how many iterations we made it do. 
+
+Whats really interesting is that it often seems to under fit higher grades. For example, when predicting a entry whose grade is 10, 55%-60% of the time, it classifies it as a 9, same with entries of grade 8, 40% of the time it classifies it as a grade 8. The converse is also true, at lower grades like 6 or 7, it wants to over fit them with a grade bump. It is more drastic in the entries whose grade is 6 but its alls more prevalant in grade 7 instead of underfitting. Finally grade 8, seems to have an semi even spread of going down a grad and going up a grade (depending on which model you look at.) This tells us that the features we use cant be strictly quantified to always adhereing to one grade over the other.
 
 ---
 
