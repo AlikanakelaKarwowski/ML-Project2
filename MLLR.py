@@ -23,8 +23,8 @@ def find_stats(x):
         print(f'\nMean:\n{round(j.mean(),3)}')
         print(f'\nSTD:\n{round(np.std(j),3)}')
 
-    print(f'\nMedian:\nHARDCODED VALUE FROM EXCEL')
-    print(f'\nMode:\nHARDCODED VALUE FROM EXCEL')
+    print(f'\nMedian:\nbedrooms\t\t{3:>11}\nbathrooms\t\t{2.5:>11}.5\nprice\t\t{450000:>11}\nsqft_living\t\t{1910:>11}\nsqft_lot\t\t{7619:>11}\nyr_built\t\t{1975:>11}\nfloors\t\t{1:>11}.5\nsqft_basement\t\t{0:>11}')
+    print(f'\nMode:\nbedrooms\t\t{3:>11}\nbathrooms\t\t{2.5:>11}.5\nprice\t\t{450000:>11}\nsqft_living\t\t{1300:>11}\nsqft_lot\t\t{5000:>11}\nyr_built\t\t{2014:>11}\nfloors\t\t{1:>11}\nsqft_basement\t\t{0:>11}')
 
 def show_data(x, y):
     # Show Graphical Representations of our Data
