@@ -152,12 +152,19 @@ if __name__ == "__main__":
     x = house[['bedrooms', 'bathrooms', 'price', 'sqft_living', 'sqft_lot', 'yr_built', 'floors', 'sqft_basement']]
     y = house["grade"]
 
-    p1 = Process(target=log_reg, args=(x,y,))
-    p2 = Process(target=k_nearest, args=(x,y,))
-    p3 = Process(target=linear_SVC, args=(x,y,True,))
-    p4 = Process(target=svc_poly, args=(x,y,True,))
-    p5 = Process(target=svc_rbf, args=(x,y,True,))
-    p6 = Process(target=svc_linear_kernel, args=(x,y,True,))
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # MULTIPROCESSING IS GOING ON, IF YOU HAVE A SLOW COMPUTER LIMIT IT TO 2 or 3 Processes AT MOST #
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+    #Change the last arg from False to True to enable graphs 
+    p1 = Process(target=log_reg, args=(x,y,False))
+    p2 = Process(target=k_nearest, args=(x,y,False))
+    p3 = Process(target=linear_SVC, args=(x,y,False,))
+    p4 = Process(target=svc_poly, args=(x,y,False,))
+    p5 = Process(target=svc_rbf, args=(x,y,False,))
+    p6 = Process(target=svc_linear_kernel, args=(x,y,False,))
+    
+    #Start the Processes
     p1.start()
     p2.start()
     p3.start()
@@ -165,11 +172,13 @@ if __name__ == "__main__":
     p5.start()
     p6.start()
 
+    #Join the Processes once they finish
     p1.join()
     p2.join()
     p3.join()
     p4.join()
     p5.join()
     p6.join()
-
+    
+    show_data(x,y)
     find_stats(x)
