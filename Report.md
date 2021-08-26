@@ -5,24 +5,26 @@
 ### Group 2
 
 ---
+
 - [Abstract](#abstract)
 - [Introduction](#introduction)
 - [Statistical Summary](#statistical-summary)
 - [Summary of Classification Results](#summary-of-classification-results)
 - [Conclusion](#conclusion)
+
 ---
 
 # Abstract
 
 We are trying to predict the grade of a house based on a couple key features of the house like, Price, Sq. Footage, Numbers of Bedrooms and Bathrooms, and more.
 
-We used a housing market data set for Kings County Washingtion. There are over 21,000 entries but we have limited it to around 20,000 since we aren't calculating models for entries above a grade 10, or below a grade 6 since the number of entries for those classifications are less than 5% of the entire dataset but can change our accuracy by upto 10%. The features we decided upon using in our models were:
+We used a housing market data set for Kings County Washington. There are over 21,000 entries but we have limited it to around 20,000 since we aren't calculating models for entries above a grade 10, or below a grade 6 since the number of entries for those classifications are less than 5% of the entire dataset but can change our accuracy by up to 10%. The features we decided upon using in our models were:
 
 `Bedrooms, Bathrooms, Price, Sq Footage of the House, Sq Footage of the property, Year Built, Number of Floors, and Sq. Footage of the Basement`
 
 We used a grand total of 6 different learning models:
 
-`Logistic Regression, K Nearest Neighbors, Linear SVC, Polynomial SVC, RBF SVC, and a Linear Kernel version of SVC`
+`Logistic Regression, K Nearest Neighbors, Linear SVC, Polynomial SVC, RBF SVC, and a Linear Kernel version of SVC with a Gaussian Distribution`
 
 The outcome of all the learning models was around 65% accuracy, which is actually fairly good considering both the size of the dataset and the number of classes we have to go off of is so large.
 
@@ -32,17 +34,17 @@ In general, prediction of an average house, grade 7, was around 83% while a belo
 
 # Introduction
 
-The problem we are trying to solve with this program is to see if we (using multiple differernt machine learning models) can predict the grade of property. The grade of a house is a number between 1-15, which denotes how well it was constructed as well as the overall quality of the house. A 1 is a very poorly constructed and practically falling apart house, while a 15 is overly extravagent in the construction material and would be equivalent to a celebrity's mansion in terms of construction and quality. For our dataset, we limited our classes to just predict grades 6-10 instead of 1-15 because the only ones out side of that range had extreme numbers that massively through off our predictions, and most people would go for a house with grade 6-10 anyways in real world applications.
+The problem we are trying to solve with this program is to see if we (using multiple different machine learning models) can predict the grade of a property. The grade of a house is a number between 1-15, which denotes how well it was constructed as well as the overall quality of the house. A 1 is a very poorly constructed and practically falling apart house, while a 15 is overly extravagant in the construction material and would be equivalent to a celebrity's mansion in terms of construction and quality. For our dataset, we limited our classes to just predict grades 6-10 instead of 1-15 because the only ones out side of that range had extreme numbers that massively through off our predictions, and most people would go for a house with grade 6-10 anyways in real world applications.
 
-First we loaded up our data using the desired features, then we scaled the data down to a range between 0 and 1. This allows the models to perform better without actually changing the signifigance of the real values. This alone improved our accuracy by almost 15%. 
+First we loaded up our data using the desired features, then we scaled the data down to a range between 0 and 1. This allows the models to perform better without actually changing the significance of the real values. This alone improved our accuracy by almost 15%.
 
-We then performed Logistic Regression, KNN, and multiple SVM learning models on our dataset. Finally we show the overal data (with graphs) and the statistics for the classes like min, max, mean, etc.
+We then performed Logistic Regression, KNN, and multiple SVM learning models on our dataset. Finally we show the overall data (with graphs) and the statistics for the classes like min, max, mean, etc.
 
 ---
 
 # Statistical Summary
 
-**Note:** Due to the way we handled the data, we were unable to get a realistic Median and Mode for *Each* class, so for those two stats we used the entire datasets Median, and Mode by calculating it in Excel or another table based software.
+**Note:** Due to the way we handled the data, we were unable to get a realistic Median and Mode for _Each_ class, so for those two stats we used the entire datasets Median, and Mode by calculating it in Excel or another table based software.
 
 Below are the statistical features of our dataset.
 
@@ -67,7 +69,7 @@ floors                1.109 sqft_basement       122.914
 #---------------------------------------STD-------------------------------------#
 bedrooms              0.832 bathrooms             0.426 price          122940.107
 sqft_living         396.685 sqft_lot          44858.659 yr_built           20.963
-floors                0.244 sqft_basement       265.064 
+floors                0.244 sqft_basement       265.064
 
 Statistics for Grade: 7
 
@@ -149,7 +151,7 @@ floors                1.0 sqft_basement         0.0
 
 #--------------------------------------Mean-------------------------------------#
 bedrooms               3.907 bathrooms              3.006 price       1071771.074
-sqft_living         3520.300 sqft_lot           28191.063 yr_bui         1989.570 
+sqft_living         3520.300 sqft_lot           28191.063 yr_bui         1989.570
 floors                 1.893 sqft_basement        408.213
 
 #---------------------------------------STD-------------------------------------#
@@ -168,17 +170,18 @@ bedrooms                  3 bathrooms               2.5 price              45000
 sqft_living            1910 sqft_lot               7619 yr_built             1975
 floors                  1.5 sqft_basement             0
 ```
-We have excluded entries in our data set whose grade was less than 6, as well as the entries whos grade was over 10. We did this primarily because the data that fell into these settings were generally large outliers that ended up majorly skewing any results we got. For example, we believe one entry had a typo, where the house had 33 bedrooms, but had only 1100 sq.Ft for the house. Meaning that if there were no other amenities in the house, you would have a bedroom that was a 5.75 ft x 5.75 ft. The average adult male is around 5.83 ft long (or 5 ft 10 in). That means the average person wouldnt be able to sleep in any of the bedrooms. 
+
+We have excluded entries in our data set whose grade was less than 6, as well as the entries whose grade was over 10. We did this primarily because the data that fell into these settings were generally large outliers that ended up majorly skewing any results we got. For example, we believe one entry had a typo, where the house had 33 bedrooms, but had only 1100 sq.Ft for the house. Meaning that if there were no other amenities in the house, you would have a bedroom that was a 5.75 ft x 5.75 ft. The average adult male is around 5.83 ft long (or 5 ft 10 in). That means the average person wouldn't be able to sleep in any of the bedrooms.
 
 As for houses that were above grade 10, they were generally mansions in terms of size and price, and the values for them also largely skewed any data we would through into the models (albeit much less than the lower grade houses) and since this would be ideally used in a real world application, you would be able to tell by looking at a mansion that it was well built instead of a normal house.
 
-Our last reason for excluding the entries that fit in those criterion, was that it was less than 5% of our total dataset (about 1000 entries total) but gave an increase in accuracy of upto 15% in some cases.
+Our last reason for excluding the entries that fit in those criterion, was that it was less than 5% of our total dataset (about 1000 entries total) but gave an increase in accuracy of up to 15% in some cases.
 
 Below is a comparison graph of all our features that we are using in our models.
 
 <center>
 
-![Feature Comparision Graph](data_comp.png)
+![Feature Comparison Graph](data_comp.png)
 
 </center>
 
@@ -219,9 +222,9 @@ KNN Score: 66.7%
 
 For our data, Logistic Regression and the Linear Kernel of the Gaussian SVM produced the highest accuracy.
 
-We tried multiple different configurations of Linear SVM to try and get our data to converge. But due to the way our data is structured it never converged, meaning that the features don't follow a Linear Path that allows them to be easily separated. Thus we had to use either a Polynomial kernel, or use the linear kernel with a Gaussian distributuion to find a meaningful convergence.
+We tried multiple different configurations of Linear SVM to try and get our data to converge. But due to the way our data is structured it never converged, meaning that the features don't follow a Linear Path that allows them to be easily separated. Thus we had to use either a Polynomial kernel, or use the linear kernel with a Gaussian distributution to find a meaningful convergence.
 
-Below is the confusion matrix for our best learning models, Logistic regression, and SVM using a Linear Kernel and a Guassian Distribution
+Below is the confusion matrix for our best learning models, Logistic regression, and SVM using a Linear Kernel and a Gaussian Distribution
 
 <center>
 
@@ -240,13 +243,11 @@ Below is the confusion matrix for our best learning models, Logistic regression,
 <center> SVM Linear Kernel with Gaussian Distribution </center>
 
 ---
+
 # Conclusion
 
-In conclusion our data set was best trained using Logistic Regression, or SVM with a Linear Kernel and a Gaussian Distribution. Those models gave us the largest accuracy for all classes ranging between 63% -72% depending on how the data was split for training and testing. We also found out that using a straight up Linear SVM model made it so that our data wouldnt converge no matter how many iterations we made it do. 
+In conclusion our data set was best trained using Logistic Regression, or SVM with a Linear Kernel and a Gaussian Distribution. Those models gave us the largest accuracy for all classes ranging between 63% -72% depending on how the data was split for training and testing. We also found out that using a straight up Linear SVM model made it so that our data wouldn't converge no matter how many iterations we made it do.
 
-Whats really interesting is that it often seems to under fit higher grades. For example, when predicting a entry whose grade is 10, 55%-60% of the time, it classifies it as a 9, same with entries of grade 8, 40% of the time it classifies it as a grade 8. The converse is also true, at lower grades like 6 or 7, it wants to over fit them with a grade bump. It is more drastic in the entries whose grade is 6 but its alls more prevalant in grade 7 instead of underfitting. Finally grade 8, seems to have an semi even spread of going down a grad and going up a grade (depending on which model you look at.) This tells us that the features we use cant be strictly quantified to always adhereing to one grade over the other.
+Whats really interesting is that it often seems to under fit higher grades. For example, when predicting a entry whose grade is 10, 55%-60% of the time, it classifies it as a 9, same with entries of grade 8, 40% of the time it classifies it as a grade 8. The converse is also true, at lower grades like 6 or 7, it wants to over fit them with a grade bump. It is more drastic in the entries whose grade is 6 but its alls more prevalent in grade 7 instead of under fitting. Finally grade 8, seems to have an semi even spread of going down a grad and going up a grade (depending on which model you look at.) This tells us that the features we use cant be strictly quantified to always adhering to one grade over the other.
 
 ---
-
-
-

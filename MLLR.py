@@ -50,9 +50,10 @@ def log_reg(x, y, show_pcm=False):
 
     lr = LogisticRegression(random_state=0, multi_class='auto', max_iter=10000)
     lr.fit(xtrain,ytrain)
-    print(f"Logistic Regression Score: {round(lr.score(xtest,ytest),3)}")
+    print(f"Logistic Regression Score: {100*round(lr.score(xtest,ytest),3)}%")
     if show_pcm:
         pcm(lr, xtest, ytest, normalize='true')
+        plt.title(f"Logistic Regression Score: {100*round(lr.score(xtest,ytest),3)}%")
         plt.show()
 
 def k_nearest(x, y, show_pcm=False):
@@ -74,12 +75,13 @@ def k_nearest(x, y, show_pcm=False):
         test_acc[i] = knn.score(xtest, ytest)
     knn = KNeighborsClassifier(n_neighbors=15, metric='minkowski', p=1, weights='distance')
     knn.fit(xtrain, ytrain)
-    print(f"KNN Score: {round(knn.score(xtest,ytest),3)}")
+    print(f"KNN Score: {100*round(knn.score(xtest,ytest),3)}%")
     if show_pcm:
         pcm(knn, xtest, ytest, normalize='true')
         #Show Relevant plots based on requirements
         plt.figure()
         plt.plot(neighbors,test_acc,label="Testing Dataset Accuracy KNN")
+        plt.title(f"KNN Score: {100*round(knn.score(xtest,ytest),3)}%")
         plt.legend()
         plt.xlabel("n_neighbors")
         plt.ylabel("Accuracy")
@@ -99,19 +101,21 @@ def linear_SVC(x, y, show_pcm=False):
     print(f"Linear SVC Intercept: {lsvc.intercept_}")
     if show_pcm:
         pcm(lsvc, xtest, ytest, normalize='true')
+        plt.title(f"Linear SVC Score: {100*lsvc.score(xtest, ytest):.2f}%")
         plt.show()
 
 def svc_poly(x, y, show_pcm=False):
     x = scale(x)
     xtrain, xtest, ytrain, ytest = train_test_split(x, y, random_state=0, test_size=0.25)
 
-    svc = SVC(degree=2, kernel='poly', random_state=0, gamma='auto')
+    svc = SVC(degree=5, kernel='poly', random_state=0, gamma='auto')
     svc.fit(xtrain, ytrain)
     print(f"SVM Poly Training set score: {100*svc.score(xtrain, ytrain):.2f}%")
     print(f"SVM Poly Test set score: {100*svc.score(xtest, ytest):.2f}%")
     
     if show_pcm:
         pcm(svc, xtest, ytest, normalize='true')
+        plt.title(f"SVM Poly Kernel Score: {100*svc.score(xtest, ytest):.2f}%")
         plt.show()
 
 def svc_rbf(x, y, show_pcm=False):
@@ -125,6 +129,7 @@ def svc_rbf(x, y, show_pcm=False):
 
     if show_pcm:
         pcm(svc, xtest, ytest, normalize='true')
+        plt.title(f"SVM RBF Gaussian Score: {100*svc.score(xtest, ytest):.2f}%")
         plt.show()
 
 def svc_linear_kernel(x, y, show_pcm=False):
@@ -138,8 +143,8 @@ def svc_linear_kernel(x, y, show_pcm=False):
 
     if show_pcm:
         pcm(svc, xtest, ytest, normalize='true')
+        plt.title(f"SVM Linear Gaussian Score: {100*svc.score(xtest, ytest):.2f}%")
         plt.show()
-
 
 if __name__ == "__main__": 
     USAhousing = pd.read_csv('kc_house_data.csv')
@@ -160,7 +165,7 @@ if __name__ == "__main__":
     p1 = Process(target=log_reg, args=(x,y,False))
     p2 = Process(target=k_nearest, args=(x,y,False))
     p3 = Process(target=linear_SVC, args=(x,y,False,))
-    p4 = Process(target=svc_poly, args=(x,y,False,))
+    p4 = Process(target=svc_poly, args=(x,y,True,))
     p5 = Process(target=svc_rbf, args=(x,y,False,))
     p6 = Process(target=svc_linear_kernel, args=(x,y,False,))
     
